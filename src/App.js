@@ -1,62 +1,92 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {};
-    this.state.category = '';
+    this.state.insect = '';
   }
 
   handleChange = (event) => {
-    const {value} = event.target;
-    this.setState({category: value});
+    const { value } = event.target;
+    this.setState({ insect: value });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.createNewCategory(this.state.category);
+    this.props.createNewInsect(this.state.insect);
   };
+
+  // handleUpdate = (event) => {
+  //   console.log('clicked')
+  //   this.props.updateInsect(this.state.insect);
+  // };
 
   render() {
     return (
       <>
-        {
-          this.props.categories.map(category =>
-            <li>{category}</li> )
-        }
-
+        <h3>Click list items to update</h3>
         <form onSubmit={this.handleSubmit}>
+          {
+            this.props.insects.map((insect, key) =>
+              <li key={key} name={insect.id} onClick={e => {
+                this.props.updateInsect({ id: insect.id, name: 'updated name' })
+              }}>
+                {insect.name}
+                <button type='button' onClick={e => {
+                this.props.deleteInsect(insect.id)
+              }}> X </button>
+              </li>
+            )
+          }
           <input
             type='text'
-            value={this.state.category}
+            value={this.state.insect}
             onChange={this.handleChange}
-            placeholder='Enter a Category'
+            placeholder='Enter a Insect'
           />
-          <button type='submit'> Create a Category </button>
+          <button type='submit'> Create a Insect </button>
         </form>
       </>
     );
   }
 }
 
+
 // Vinicio - this function lets you READ from the state
 const mapStateToProps = (state) => {
   return {
-    categories: state.categories,
+    insects: state.insects,
   }
 };
 
 // Vinicio - this function lets you send ACTIONS to the store
 const mapDispatchToProps = (dispatch) => {
   return {
-    createNewCategory : (categoryName) => {
+
+    createNewInsect: (insectName) => {
       dispatch({
-        type: 'CATEGORY_CREATE',
-        payload: categoryName,
+        type: 'INSECT_CREATE',
+        payload: insectName,
       });
     },
+
+    deleteInsect: (insect) => {
+      dispatch({
+        type: 'INSECT_DELETE',
+        payload: insect,
+      });
+    },
+
+    updateInsect: (insect) => {
+      dispatch({
+        type: 'INSECT_UPDATE',
+        payload: insect,
+      });
+    },
+
   };
 };
 
