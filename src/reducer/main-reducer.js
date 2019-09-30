@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
-import categories from './category-reducer';
+import insects from './insect-reducer';
 
 export default combineReducers({
-  categories,
+  insects,
 });
