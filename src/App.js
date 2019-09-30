@@ -54,15 +54,12 @@ class App extends React.Component {
   }
 }
 
-
-// Vinicio - this function lets you READ from the state
 const mapStateToProps = (state) => {
   return {
     insects: state.insects,
   }
 };
 
-// Vinicio - this function lets you send ACTIONS to the store
 const mapDispatchToProps = (dispatch) => {
   return {
 
